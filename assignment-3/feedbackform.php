@@ -1,17 +1,43 @@
+<?php require 'feedback.php';
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="feedback.css">
-    <link rel="scriptsheet" href="feedback.js">
-    <link href="feedback.php">
-    
+  <title>Feedback Form</title>
+  <link rel="stylesheet" href="feedback.css">
+   <link rel="scriptsheet" href="feedback.js">
 </head>
+
 <body>
-    <div class="wrapper">
+
+  <?php
+  // Defining variables
+  $name = $surname = $phone = $emailid="";
+  $_SAVE=false;
+  // Checking for a POST request
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $_SAVE=false;
+    $name = ($_POST["name"]);
+    $surname = ($_POST["surname"]);
+    $phone= ($_POST["[phone"]);
+    $emailid = ($_POST["emailid"]);
+    
+    // echo "<h2>Your Input:</h2>";
+    // echo $name;
+    // echo "<br>";
+    // echo $email;
+    // echo "<br>";
+    // echo $message;
+    if($_CONN){
+      $query = "INSERT INTO student(name, surname,phone,emailid) VALUES('".$name."','".$surname."','".$phone."','"$emailid."')";
+      $result = $conn->multi_query($query);
+      $_SAVE=true;
+    }
+  }
+  ?>
+
+<div class="wrapper">
         <h2>feedback form</h2>
         <div id="error_message">
            
@@ -37,5 +63,15 @@
           </div>
         </form>
       </div>
-      
+      <?php
+        if($_SAVE){
+          echo '<p style="color:#ffffff ; text-align:center; margin-top:10px; ">Thank you! Your feedback has been submitted.</p>';
+        }
+      ?>
+    </div>
+  </div>
+
+  
 </body>
+
+</html>
